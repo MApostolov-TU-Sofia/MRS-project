@@ -9,11 +9,13 @@ import android.widget.Button;
 
 import com.example.bank_app.account.AccountLoginActivity;
 import com.example.bank_app.account.AccountRegisterActivity;
+import com.example.bank_app.model.BankAccount;
 import com.example.bank_app.model.LoggedUser;
 import com.example.bank_app.model.User;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static BankAccount appBankAccount;
     public static LoggedUser appLoggedUser;
     public static User appUser;
     private Button loginButton, registerButton;

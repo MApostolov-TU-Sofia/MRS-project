@@ -21,6 +21,7 @@ import api_application.controller.user
 import api_application.controller.bank
 import api_application.controller.bank_account
 import api_application.controller.credit_card
+import api_application.controller.transaction
 
 import api_application.routes.home
 import api_application.routes.role
@@ -28,6 +29,7 @@ import api_application.routes.user
 import api_application.routes.bank
 import api_application.routes.bank_account
 import api_application.routes.credit_card
+import api_application.routes.transaction
 
 with app.app_context():
     db.create_all()

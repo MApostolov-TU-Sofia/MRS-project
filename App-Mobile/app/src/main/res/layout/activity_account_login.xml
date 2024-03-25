@@ -51,11 +51,28 @@
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
 
+        <EditText
+            android:id="@+id/inp_pin"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:layout_below="@id/inp_password"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="0dp"
+            android:autofillHints="pin"
+            android:hint="PIN"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/inp_password"
+            android:layout_below="@id/inp_pin"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="0dp"

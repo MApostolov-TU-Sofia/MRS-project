@@ -1,16 +1,21 @@
 package com.example.bank_app.account;
 
+import static com.example.bank_app.util.UtilAdapter.encodeValue;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bank_app.MainActivity;
 import com.example.bank_app.R;
+import com.example.bank_app.bank.BankAccountViewActivity;
 import com.example.bank_app.util.ListViewAdapter;
 
 import org.json.JSONArray;
@@ -73,7 +78,7 @@ public class AccountViewActivity extends AppCompatActivity {
         this.extractInfo(urlString, "show_info");
     }
 
-    private void extractInfo(String urlString, String action) {
+    public void extractInfo(String urlString, String action) {
         try {
             // Define your Flask server endpoint
             if (action == "show_info") {
@@ -129,6 +134,7 @@ public class AccountViewActivity extends AppCompatActivity {
                                 resInfoJSON.get("username").toString(),
                                 null,
                                 resInfoJSON.get("salt").toString(),
+                                (Integer) resInfoJSON.get("pin"),
                                 (Integer) resInfoJSON.get("bank_id"),
                                 (Integer) resInfoJSON.get("role_id"),
                                 resInfoJSON.get("name").toString(),
@@ -196,6 +202,14 @@ public class AccountViewActivity extends AppCompatActivity {
                         }
                         self.bankAccountListViewAdapter = new ListViewAdapter(self, items, dArray);
                         self.bankAccountsListView.setAdapter(self.bankAccountListViewAdapter);
+                        self.bankAccountsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                                String selectedItem = (String) adapterView.getItemAtPosition(position);
+//                                Toast.makeText(AccountViewActivity.this, "" + selectedItem, Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(AccountViewActivity.this, BankAccountViewActivity.class));
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     System.out.println(e);
@@ -274,13 +288,4 @@ public class AccountViewActivity extends AppCompatActivity {
         }
     }
 
-    // Encode parameter values to be URL-safe
-    private String encodeValue(String value) {
-        try {
-            return URLEncoder.encode(value, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return value;
-        }
-    }
 }
