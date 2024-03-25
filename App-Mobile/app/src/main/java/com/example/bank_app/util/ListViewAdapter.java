@@ -23,6 +23,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import com.example.bank_app.account.AccountViewActivity;
+
 public class ListViewAdapter extends ArrayAdapter<String> {
     private ListViewAdapter self = this;
     private ArrayList<String> list;
@@ -49,7 +51,6 @@ public class ListViewAdapter extends ArrayAdapter<String> {
             TextView number = convertView.findViewById(R.id.number);
             TextView name = convertView.findViewById(R.id.name);
             TextView cash = convertView.findViewById(R.id.cash);
-            ImageView remove = convertView.findViewById(R.id.remove);
 
             number.setText((position + 1) + ".");
             name.setText(list.get(position));
@@ -58,31 +59,32 @@ public class ListViewAdapter extends ArrayAdapter<String> {
             try {
                 JSONObject dObj = (JSONObject) this.jsonList.get(position);
                 cash.setText(dObj.get("cash").toString());
+
+                if (Integer.parseInt(dObj.get("status").toString()) == 1) {
+                    ImageView remove = convertView.findViewById(R.id.remove);
+                    remove.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                new AlertDialog.Builder(self.context)
+                                        .setTitle("Confirmation")
+                                        .setMessage("Do you want to disable the bank account?")
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                Toast.makeText(self.context, "Yes, will be disabled", Toast.LENGTH_LONG).show();
+                                            }
+                                        })
+                                        .setNegativeButton(android.R.string.no, null).show();
+                            } catch (Error err) {
+                                System.out.println(err.getMessage());
+                            }
+                        }
+                    });
+                }
             } catch (JSONException e) {
                 System.out.println(e.getMessage());
             }
-
-            // Listeners for duplicating and removing an item.
-            // They use the static removeItem and addItem methods created in MainActivity.
-            remove.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        new AlertDialog.Builder(self.context)
-                                .setTitle("Confirmation")
-                                .setMessage("Do you want to remove?")
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Toast.makeText(self.context, "Yes, will be removed", Toast.LENGTH_LONG).show();
-                                    }
-                                })
-                                .setNegativeButton(android.R.string.no, null).show();
-                    } catch (Error err) {
-                        System.out.println(err.getMessage());
-                    }
-                }
-            });
         }
         return convertView;
     }

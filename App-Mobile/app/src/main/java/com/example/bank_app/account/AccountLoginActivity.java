@@ -25,7 +25,7 @@ import java.util.Scanner;
 
 public class AccountLoginActivity extends AppCompatActivity {
 
-    private EditText usernameEditText, passwordEditText;
+    private EditText usernameEditText, passwordEditText, pinEditText;
     private Button loginButton;
     private ImageButton homeButton;
 
@@ -36,6 +36,7 @@ public class AccountLoginActivity extends AppCompatActivity {
 
         this.usernameEditText = findViewById(R.id.inp_username);
         this.passwordEditText = findViewById(R.id.inp_password);
+        this.pinEditText = findViewById(R.id.inp_pin);
         this.loginButton = findViewById(R.id.loginButton);
         this.homeButton = findViewById(R.id.btn_home);
 
@@ -44,9 +45,10 @@ public class AccountLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
+                String pin = pinEditText.getText().toString();
 
                 // Execute AsyncTask to perform transfer operation
-                new TransferTask().execute(username, password);
+                new TransferTask().execute(username, password, pin);
             }
         });
 
@@ -63,12 +65,14 @@ public class AccountLoginActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String username = params[0];
             String password = params[1];
+            String pin = params[2];
 
             try {
                 // Create JSON object with username and amount
                 JSONObject jsonInput = new JSONObject();
                 jsonInput.put("username", username);
                 jsonInput.put("password", password);
+                jsonInput.put("pin", pin);
 
                 // Define your Flask server endpoint
                 URL url = new URL("http://10.0.2.2:8000/user/login");

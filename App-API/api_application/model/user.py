@@ -8,6 +8,7 @@ class User(db.Model):
     username = db.Column(db.String(256), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
     salt = db.Column(db.String(128), nullable=False)
+    pin = db.Column(db.Integer, nullable=False)
     bank_id = db.Column(db.Integer, nullable=False)
     role_id = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String(512), nullable=True)
@@ -22,6 +23,7 @@ class User(db.Model):
             'username': self.username,
             'password': self.password,
             'salt': self.salt,
+            'pin': self.pin,
             'bank_id': self.bank_id,
             'role_id': self.role_id,
             'name': self.name,

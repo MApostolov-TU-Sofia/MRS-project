@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".bank.BankAccountViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".account.AccountLoginActivity"
             android:exported="false" />
         <activity

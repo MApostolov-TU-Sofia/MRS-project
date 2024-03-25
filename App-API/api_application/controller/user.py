@@ -17,12 +17,13 @@ def JSONifyFunc(obj):
             'username': x[1],
             'password': x[2],
             'salt': x[3],
-            'bank_id': x[4],
-            'role_id': x[5],
-            'name': x[6],
-            'address': x[7],
-            'phone_nbr': x[8],
-            'job': x[9]
+            'pin': x[4],
+            'bank_id': x[5],
+            'role_id': x[6],
+            'name': x[7],
+            'address': x[8],
+            'phone_nbr': x[9],
+            'job': x[10]
         })
         i += 1
     return iObj
@@ -46,7 +47,7 @@ def login(args):
     # respJSON = JSONifyFunc(resp)
     if (db_user_check is not None):
         hashedPass = swiftcrypt.Hash().hash_password(args.get("password"), db_user_check.salt, "sha512")
-        if (hashedPass == db_user_check.password):
+        if (hashedPass == db_user_check.password and int(args.get("pin")) == db_user_check.pin):
             salt = swiftcrypt.Salts().generate_salt(16).encode('utf-8').hex()
             hashedPass = swiftcrypt.Hash().hash_password(args.get("password"), salt, "sha512")
             db_user_check.salt = salt
@@ -80,6 +81,7 @@ def register(args):
         new_record.username = args.get("username")
         new_record.password = hashedPass
         new_record.salt = salt
+        new_record.pin = int(args.get("pin"))
         new_record.bank_id = args.get("bank_id")
         new_record.role_id = args.get("role_id")
         new_record.name = args.get("name")

@@ -5,6 +5,7 @@ public class User {
     private String username;
     private String password;
     private String salt;
+    private int pin;
     private int bank_id;
     private int role_id;
     private String name;
@@ -16,11 +17,12 @@ public class User {
 
     }
 
-    public User(int id, String username, String password, String salt, int bank_id, int role_id, String name, String address, String phone_nbr, String job) {
+    public User(int id, String username, String password, String salt, int pin, int bank_id, int role_id, String name, String address, String phone_nbr, String job) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.salt = salt;
+        this.pin = pin;
         this.bank_id = bank_id;
         this.role_id = role_id;
         this.name = name;
@@ -59,6 +61,14 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public int getPIN() {
+        return pin;
+    }
+
+    public void setPIN(int pin) {
+        this.pin = pin;
     }
 
     public int getBank_id() {
@@ -109,11 +119,12 @@ public class User {
         this.job = job;
     }
 
-    public void setUser(int id, String username, String password, String salt, int bank_id, int role_id, String name, String address, String phone_nbr, String job) {
+    public void setUser(int id, String username, String password, String salt, int pin, int bank_id, int role_id, String name, String address, String phone_nbr, String job) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.salt = salt;
+        this.pin = pin;
         this.bank_id = bank_id;
         this.role_id = role_id;
         this.name = name;

@@ -7,6 +7,7 @@ public class CreditCard {
     private int id;
     private int bank_account_id;
     private String credit_card_nbr;
+    private int cvc_nbr;
     private Number limit;
     private Date valid_to;
 
@@ -14,10 +15,11 @@ public class CreditCard {
 
     }
 
-    public CreditCard(int id, int bank_account_id, String credit_card_nbr, Number limit, Date valid_to) {
+    public CreditCard(int id, int bank_account_id, String credit_card_nbr, int cvc_nbr, Number limit, Date valid_to) {
         this.id = id;
         this.bank_account_id = bank_account_id;
         this.credit_card_nbr = credit_card_nbr;
+        this.cvc_nbr = cvc_nbr;
         this.limit = limit;
         this.valid_to = valid_to;
     }
@@ -46,6 +48,14 @@ public class CreditCard {
         this.credit_card_nbr = credit_card_nbr;
     }
 
+    public int getCVCNbr() {
+        return cvc_nbr;
+    }
+
+    public void setCVCNbr(int cvc_nbr) {
+        this.cvc_nbr = cvc_nbr;
+    }
+
     public Number getLimit() {
         return limit;
     }
@@ -62,10 +72,11 @@ public class CreditCard {
         this.valid_to = valid_to;
     }
 
-    public void setCreditCard(int id, int bank_account_id, String credit_card_nbr, Number limit, Date valid_to) {
+    public void setCreditCard(int id, int bank_account_id, String credit_card_nbr, int cvc_nbr, Number limit, Date valid_to) {
         this.id = id;
         this.bank_account_id = bank_account_id;
         this.credit_card_nbr = credit_card_nbr;
+        this.cvc_nbr = cvc_nbr;
         this.limit = limit;
         this.valid_to = valid_to;
     }

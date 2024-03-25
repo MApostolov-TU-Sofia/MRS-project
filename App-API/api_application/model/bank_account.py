@@ -8,6 +8,7 @@ class BankAccount(db.Model):
     bank_id = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
     account_nbr = db.Column(db.String(128), nullable=False)
+    status = db.Column(db.Integer, nullable=False)
     cash = db.Column(db.Numeric(10, 2), nullable=False)
 
     @property

@@ -6,17 +6,19 @@ public class BankAccount {
     private int bank_id;
     private int user_id;
     private String account_nbr;
+    private int status;
     private Number cash;
 
     public BankAccount() {
 
     }
 
-    public BankAccount(int id, int bank_id, int user_id, String account_nbr, Number cash) {
+    public BankAccount(int id, int bank_id, int user_id, String account_nbr, int status, Number cash) {
         this.id = id;
         this.bank_id = bank_id;
         this.user_id = user_id;
         this.account_nbr = account_nbr;
+        this.status = status;
         this.cash = cash;
     }
 
@@ -52,6 +54,13 @@ public class BankAccount {
         this.account_nbr = account_nbr;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
     public Number getCash() {
         return cash;
     }
@@ -60,11 +69,12 @@ public class BankAccount {
         this.cash = cash;
     }
 
-    public void setBankAccount(int id, int bank_id, int user_id, String account_nbr, Number cash) {
+    public void setBankAccount(int id, int bank_id, int user_id, String account_nbr, int status, Number cash) {
         this.id = id;
         this.bank_id = bank_id;
         this.user_id = user_id;
         this.account_nbr = account_nbr;
+        this.status = status;
         this.cash = cash;
     }
 }
