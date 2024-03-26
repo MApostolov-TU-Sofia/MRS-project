@@ -2,14 +2,20 @@ package com.example.bank_app.bank;
 
 import static com.example.bank_app.util.UtilAdapter.encodeValue;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +39,9 @@ public class BankAccountViewActivity extends AppCompatActivity {
 
     private BankAccountViewActivity self = this;
     private Button logoutButton, viewCreditCardsButton;
+    private ImageView menuButton;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
     private ListView transactionsListView;
     //    private SimpleAdapter bankAccountsListViewAdapter;
     private ListViewAdapter transactionsListViewAdapter;
@@ -59,11 +68,53 @@ public class BankAccountViewActivity extends AppCompatActivity {
             }
         });
 
+        drawerLayout = findViewById(R.id.layout_bav);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_open_nav, R.string.app_close_nav);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        // Open menu button
+        this.menuButton = findViewById(R.id.btn_bav_menu);
+        this.menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                self.drawerLayout.open();
+            }
+        });
+
         String urlString = "http://10.0.2.2:8000/transaction/view_by" +
                 "?requestor=" + encodeValue(MainActivity.appLoggedUser.getUsername()) +
                 "&bank_account_id=" + encodeValue(MainActivity.appLoggedUser.getUsername()) +
                 "&token=" + encodeValue(MainActivity.appLoggedUser.getToken());
         this.extractInfo(urlString, "show_transactions");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.nav_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Switching on the item id of the menu item
+        int itemId = item.getItemId();
+        if (itemId == R.id.nav_home || itemId == R.id.nav_bank_accounts) {
+            startActivity(new Intent(BankAccountViewActivity.this, AccountViewActivity.class));
+            return true;
+        } else if (itemId == R.id.nav_credit_cards) {
+            return true;
+        } else if (itemId == R.id.nav_make_payment) {
+            return true;
+        } else if (itemId == R.id.nav_profile) {
+            return true;
+        } else if (itemId == R.id.nav_about) {
+            return true;
+        } else if (itemId == R.id.nav_logout) {
+            startActivity(new Intent(BankAccountViewActivity.this, MainActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void extractInfo(String urlString, String action) {

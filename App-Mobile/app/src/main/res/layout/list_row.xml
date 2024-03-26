@@ -9,9 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/name"
-        android:layout_marginBottom="2sp"
-        android:textColor="#A9E0F4"
-        android:textStyle="bold" />
+        android:layout_marginBottom="2dp"
+        android:textSize="10dp"
+        android:textColor="#A9E0F4" />
 
     <TextView
         android:id="@+id/name"

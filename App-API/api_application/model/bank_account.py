@@ -18,5 +18,6 @@ class BankAccount(db.Model):
             'bank_id': self.bank_id,
             'user_id': self.user_id,
             'account_nbr': self.account_nbr,
+            'status': self.status,
             'cash': self.cash
         }

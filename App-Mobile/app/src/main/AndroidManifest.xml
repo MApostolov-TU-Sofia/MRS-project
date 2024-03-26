@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".transaction.PaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".bank.BankAccountViewActivity"
             android:exported="false" />
         <activity
@@ -27,7 +30,8 @@
             android:exported="false" />
         <activity
             android:name=".account.AccountRegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
