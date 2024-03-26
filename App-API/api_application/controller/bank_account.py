@@ -74,7 +74,7 @@ def create(args):
     }
     db_user_check = user_db.User.query.filter_by(username=args.get("requestor")).first()
     if (db_user_check is not None):
-        bank_db_txt = bank_db.Bank.query.filter_by(id=args.get('bank_account_id')).first()
+        bank_db_txt = bank_db.Bank.query.filter_by(id=int(args.get('bank_id'))).first()
         bank_account_db_count = bank_account_db.BankAccount.query.count()
         bank_account_db_count += 1
         bank_account_code = 'BG80' + bank_db_txt.swift + str(bank_account_db_count).zfill(14)

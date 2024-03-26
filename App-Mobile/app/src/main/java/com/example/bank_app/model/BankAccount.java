@@ -7,13 +7,13 @@ public class BankAccount {
     private int user_id;
     private String account_nbr;
     private int status;
-    private Number cash;
+    private Double cash;
 
     public BankAccount() {
 
     }
 
-    public BankAccount(int id, int bank_id, int user_id, String account_nbr, int status, Number cash) {
+    public BankAccount(int id, int bank_id, int user_id, String account_nbr, int status, Double cash) {
         this.id = id;
         this.bank_id = bank_id;
         this.user_id = user_id;
@@ -30,27 +30,27 @@ public class BankAccount {
         this.id = id;
     }
 
-    public int getBank_id() {
+    public int getBankId() {
         return bank_id;
     }
 
-    public void setBank_id(int bank_id) {
+    public void setBankId(int bank_id) {
         this.bank_id = bank_id;
     }
 
-    public int getUser_id() {
+    public int getUserId() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUserId(int user_id) {
         this.user_id = user_id;
     }
 
-    public String getAccount_nbr() {
+    public String getAccountNbr() {
         return account_nbr;
     }
 
-    public void setAccount_nbr(String account_nbr) {
+    public void setAccountNbr(String account_nbr) {
         this.account_nbr = account_nbr;
     }
 
@@ -61,15 +61,15 @@ public class BankAccount {
     public void setStatus(int status) {
         this.status = status;
     }
-    public Number getCash() {
+    public Double getCash() {
         return cash;
     }
 
-    public void setCash(Number cash) {
+    public void setCash(Double cash) {
         this.cash = cash;
     }
 
-    public void setBankAccount(int id, int bank_id, int user_id, String account_nbr, int status, Number cash) {
+    public void setBankAccount(int id, int bank_id, int user_id, String account_nbr, int status, Double cash) {
         this.id = id;
         this.bank_id = bank_id;
         this.user_id = user_id;

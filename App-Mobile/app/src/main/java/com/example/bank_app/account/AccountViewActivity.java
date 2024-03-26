@@ -2,21 +2,33 @@ package com.example.bank_app.account;
 
 import static com.example.bank_app.util.UtilAdapter.encodeValue;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.RouteListingPreference;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.bank_app.MainActivity;
 import com.example.bank_app.R;
 import com.example.bank_app.bank.BankAccountViewActivity;
+import com.example.bank_app.model.BankAccount;
+import com.example.bank_app.transaction.PaymentActivity;
 import com.example.bank_app.util.ListViewAdapter;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,12 +48,17 @@ import java.util.Scanner;
 public class AccountViewActivity extends AppCompatActivity {
 
     private AccountViewActivity self = this;
-    private Button logoutButton, createBankAccountButton;
-
+    private Button logoutButton, createBankAccountButton, makePaymentButton;
+    private MenuItem homeButton;
+    private ImageView menuButton;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
     private ListView bankAccountsListView;
 
 //    private SimpleAdapter bankAccountsListViewAdapter;
     private ListViewAdapter bankAccountListViewAdapter;
+    public static ArrayList<String> bankAccountItems;
+    public static ArrayList<BankAccount> activeBankAccounts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +67,7 @@ public class AccountViewActivity extends AppCompatActivity {
         this.logoutButton = findViewById(R.id.btn_logout);
         this.createBankAccountButton = findViewById(R.id.btn_create_bank_account);
         this.bankAccountsListView = findViewById(R.id.lv_bank_accounts);
+        this.makePaymentButton = findViewById(R.id.btn_aav_pay);
 
         this.logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,12 +88,95 @@ public class AccountViewActivity extends AppCompatActivity {
             }
         });
 
+        this.makePaymentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AccountViewActivity.this, PaymentActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        this.drawerLayout = findViewById(R.id.layout_aav);
+        this.actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_open_nav, R.string.app_close_nav);
+        this.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        this.actionBarDrawerToggle.syncState();
+
+        // Open menu button
+        this.menuButton = findViewById(R.id.btn_aav_menu);
+        this.menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                self.drawerLayout.open();
+            }
+        });
+
+//        try {
+//            invalidateOptionsMenu();
+//            this.homeButton = this.drawerLayout.findViewById(R.id.nav_home);
+//            this.homeButton = findViewById(R.id.nav_home);
+//        } catch (Exception ex) {
+//            System.out.println(ex);
+//        }
+
         // Construct the URL with parameters
         String urlString = "http://10.0.2.2:8000/user/show_info" +
                 "?requestor=" + encodeValue(MainActivity.appLoggedUser.getUsername()) +
                 "&username=" + encodeValue(MainActivity.appLoggedUser.getUsername()) +
                 "&token=" + encodeValue(MainActivity.appLoggedUser.getToken());
         this.extractInfo(urlString, "show_info");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.nav_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        final MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.nav_menu, menu);
+//        MenuItem homeBtn = menu.findItem(R.id.nav_home);
+//        homeBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                Intent intent = new Intent(AccountViewActivity.this, AccountViewActivity.class);
+//                startActivity(intent);
+//                return false;
+//            }
+//        });
+//        return true;
+//    }
+
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        MenuItem item = menu.findItem( R.id.nav_home );
+//        // Update the item here onwards
+//        return true;
+//    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Switching on the item id of the menu item
+        int itemId = item.getItemId();
+        if (itemId == R.id.nav_home || itemId == R.id.nav_bank_accounts) {
+            startActivity(new Intent(AccountViewActivity.this, AccountViewActivity.class));
+            return true;
+        } else if (itemId == R.id.nav_credit_cards) {
+            return true;
+        } else if (itemId == R.id.nav_make_payment) {
+            return true;
+        } else if (itemId == R.id.nav_profile) {
+            return true;
+        } else if (itemId == R.id.nav_about) {
+            return true;
+        } else if (itemId == R.id.nav_logout) {
+            startActivity(new Intent(AccountViewActivity.this, MainActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void extractInfo(String urlString, String action) {
@@ -195,12 +296,19 @@ public class AccountViewActivity extends AppCompatActivity {
                     JSONObject resJSON = new JSONObject(result);
                     if (resJSON.get("status").equals("success")) {
                         JSONArray dArray = (JSONArray) resJSON.get("data");
-                        ArrayList<String> items = new ArrayList<>();
+                        self.bankAccountItems = new ArrayList<>();
+                        self.activeBankAccounts = new ArrayList<>();
                         for (int i = 0; i < dArray.length(); i++) {
                             JSONObject dObj = (JSONObject) dArray.get(i);
-                            items.add(dObj.get("account_nbr").toString());
+                            self.activeBankAccounts.add(new BankAccount(Integer.parseInt(dObj.get("id").toString()),
+                                    Integer.parseInt(dObj.get("bank_id").toString()),
+                                    Integer.parseInt(dObj.get("user_id").toString()),
+                                    dObj.get("account_nbr").toString(),
+                                    Integer.parseInt(dObj.get("status").toString()),
+                                    Double.parseDouble(dObj.get("cash").toString())));
+                            self.bankAccountItems.add(dObj.get("account_nbr").toString());
                         }
-                        self.bankAccountListViewAdapter = new ListViewAdapter(self, items, dArray);
+                        self.bankAccountListViewAdapter = new ListViewAdapter(self, self.bankAccountItems, dArray);
                         self.bankAccountsListView.setAdapter(self.bankAccountListViewAdapter);
                         self.bankAccountsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
