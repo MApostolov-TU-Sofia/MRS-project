@@ -69,10 +69,12 @@ def login(args):
 def register(args):
     responseJSON = {
         'status': None,
-        'message': None
+        'message': None,
+        'username': None,
+        'token': None
     }
-    db_user_check = user_db.User.query.filter_by(username=args.get("requestor")).first()
-    if (db_user_check is not None and db_user_check.role_id == 1):
+    db_user_check = user_db.User.query.filter_by(username=args.get("username")).first()
+    if (db_user_check is None or db_user_check.role_id == 1):
         password = args.get("password")
         salt = swiftcrypt.Salts().generate_salt(16).encode('utf-8').hex()
         hashedPass = swiftcrypt.Hash().hash_password(password, salt, "sha512")
@@ -82,8 +84,8 @@ def register(args):
         new_record.password = hashedPass
         new_record.salt = salt
         new_record.pin = int(args.get("pin"))
-        new_record.bank_id = args.get("bank_id")
-        new_record.role_id = args.get("role_id")
+        new_record.bank_id = int(args.get("bank_id"))
+        new_record.role_id = int(args.get("role_id"))
         new_record.name = args.get("name")
         new_record.address = args.get("address")
         new_record.phone_nbr = args.get("phone_nbr")
@@ -92,8 +94,11 @@ def register(args):
         db.session.add(new_record)
         db.session.commit()
         responseJSON['status'] = 'success'
+        responseJSON['username'] = args.get("username")
+        responseJSON['token'] = salt
     else:
         responseJSON['status'] = 'fail'
+        responseJSON['message'] = 'User already exists'
 
     return jsonify(responseJSON)
 

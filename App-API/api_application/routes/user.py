@@ -13,7 +13,7 @@ def getIData(request):
 def user_login_route():
     return login(getIData(request))
 
-@app.route('/user/register', methods=['POST', 'GET'])
+@app.route('/user/register', methods=['POST'])
 def user_register_route():
     return register(getIData(request))
 
