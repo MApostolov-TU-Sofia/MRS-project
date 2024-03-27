@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import render_template, request
 from api_application import app
-from api_application.controller.user import login, register, modify, show_info
+from api_application.controller.user import login, register, modify, show_info, change_password
 
 def getIData(request):
     iData = request.args.to_dict()
@@ -24,3 +24,6 @@ def user_modify_route():
 @app.route('/user/show_info', methods=['GET'])
 def user_show_info_route():
     return show_info(getIData(request))
+@app.route('/user/change_password', methods=['POST'])
+def user_change_password_route():
+    return change_password(getIData(request))
