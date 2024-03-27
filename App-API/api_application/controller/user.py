@@ -149,3 +149,28 @@ def show_info(args):
         responseJSON['message'] = 'User is not found or you do not have rights to review'
 
     return jsonify(responseJSON)
+
+def change_password(args):
+    responseJSON = {
+        'status': None,
+        'message': None,
+        'data': None
+    }
+
+    db_user_check = user_db.User.query.filter_by(username=args.get("requestor")).first()
+    if (db_user_check is not None and db_user_check.salt == args.get('token')):
+        prevHashedPass = swiftcrypt.Hash().hash_password(args.get("previous_password"), db_user_check.salt, "sha512")
+        if (db_user_check.password == prevHashedPass):
+            hashedPass = swiftcrypt.Hash().hash_password(args.get("new_password"), db_user_check.salt, "sha512")
+            db_user_check.password = hashedPass
+            db.session.commit()
+            responseJSON['status'] = 'success'
+            responseJSON['message'] = 'Successful password change'
+        else:
+            responseJSON['status'] = 'fail'
+            responseJSON['message'] = 'Old password is wrong'
+    else:
+        responseJSON['status'] = 'fail'
+        responseJSON['message'] = 'User is not found'
+
+    return jsonify(responseJSON)

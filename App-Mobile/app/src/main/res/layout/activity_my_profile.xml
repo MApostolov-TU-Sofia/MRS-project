@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_ampv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".account.MyProfileActivity"
+    android:background="@drawable/blue_bb">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_ampv_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/design_default_color_error"
+            android:text="LogOut"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:id="@+id/inp_prev_password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="150dp"
+                android:autofillHints="password"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:hint="Old Password"
+                android:inputType="textPassword"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/inp_new_password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/inp_prev_password"
+                android:layout_marginTop="10dp"
+                android:autofillHints="password"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:hint="New Password"
+                android:inputType="textPassword"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/inp_confirm_new_password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/inp_new_password"
+                android:layout_marginTop="10dp"
+                android:autofillHints="password"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:hint="Confirm New Password"
+                android:inputType="textPassword"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                tools:ignore="MissingConstraints" />
+
+            <Button
+                android:id="@+id/btn_ampv_submit_password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/inp_confirm_new_password"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@android:color/holo_green_dark"
+                android:text="Change Password"
+                tools:ignore="MissingConstraints" />
+
+            <Button
+                android:id="@+id/btn_ampv_pay"
+                android:layout_alignParentRight="true"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:backgroundTint="@android:color/holo_green_dark"
+                android:text="Make Payment"
+                android:layout_gravity="bottom"
+                android:layout_alignParentBottom="true"
+                tools:ignore="MissingConstraints" />
+
+            <ImageView
+                android:id="@+id/btn_ampv_menu"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="#E3E3E3"
+                android:layout_centerInParent="true"
+                android:layout_gravity="bottom"
+                android:layout_alignParentBottom="true"
+                android:contentDescription=""
+                android:src="@drawable/ic_menu" />
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/nav_menu"
+        tools:ignore="MissingConstraints" />
+</androidx.drawerlayout.widget.DrawerLayout>
