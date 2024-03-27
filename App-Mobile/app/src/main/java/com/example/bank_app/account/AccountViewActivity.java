@@ -3,17 +3,24 @@ package com.example.bank_app.account;
 import static com.example.bank_app.util.UtilAdapter.encodeValue;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.RouteListingPreference;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,6 +33,7 @@ import com.example.bank_app.MainActivity;
 import com.example.bank_app.R;
 import com.example.bank_app.bank.BankAccountViewActivity;
 import com.example.bank_app.model.BankAccount;
+import com.example.bank_app.transaction.MyPaymentActivity;
 import com.example.bank_app.transaction.PaymentActivity;
 import com.example.bank_app.util.ListViewAdapter;
 import com.google.android.material.navigation.NavigationView;
@@ -91,8 +99,7 @@ public class AccountViewActivity extends AppCompatActivity {
         this.makePaymentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AccountViewActivity.this, PaymentActivity.class);
-                startActivity(intent);
+                showBottomDialog();
             }
         });
 
@@ -164,9 +171,9 @@ public class AccountViewActivity extends AppCompatActivity {
         if (itemId == R.id.nav_home || itemId == R.id.nav_bank_accounts) {
             startActivity(new Intent(AccountViewActivity.this, AccountViewActivity.class));
             return true;
-        } else if (itemId == R.id.nav_credit_cards) {
+        } else if (itemId == R.id.nav_make_my_payment) {
             return true;
-        } else if (itemId == R.id.nav_make_payment) {
+        } else if (itemId == R.id.nav_make_ext_payment) {
             return true;
         } else if (itemId == R.id.nav_profile) {
             return true;
@@ -396,4 +403,33 @@ public class AccountViewActivity extends AppCompatActivity {
         }
     }
 
+    private void showBottomDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottom_payment_layout);
+
+        LinearLayout myPaymentReq = dialog.findViewById(R.id.my_payment_req);
+        LinearLayout paymentReq = dialog.findViewById(R.id.payment_req);
+
+        myPaymentReq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                startActivity(new Intent(AccountViewActivity.this, MyPaymentActivity.class));
+            }
+        });
+
+        paymentReq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                startActivity(new Intent(AccountViewActivity.this, PaymentActivity.class));
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
 }

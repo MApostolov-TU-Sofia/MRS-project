@@ -14,12 +14,12 @@
             android:title="My Bank Accounts"
             app:showAsAction="collapseActionView"/>
         <item
-            android:id="@+id/nav_credit_cards"
-            android:title="My Credit Cards"
+            android:id="@+id/nav_make_my_payment"
+            android:title="Make Payment Between My Accounts"
             app:showAsAction="collapseActionView"/>
         <item
-            android:id="@+id/nav_make_payment"
-            android:title="Make Payment"
+            android:id="@+id/nav_make_ext_payment"
+            android:title="Make External Payment"
             app:showAsAction="collapseActionView"/>
         <item
             android:title=""
