@@ -13,4 +13,15 @@ public class UtilAdapter {
             return value;
         }
     }
+
+    public static String addSpaces(String text) {
+        String result = "";
+        for (int i = 0; i < text.length(); i++) {
+            result += text.charAt(i);
+            if ((i + 1) % 4 == 0) {
+                result += " ";
+            }
+        }
+        return result;
+    }
 }

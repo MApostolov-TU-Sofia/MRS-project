@@ -1,5 +1,7 @@
 package com.example.bank_app.util;
 
+import static com.example.bank_app.util.UtilAdapter.addSpaces;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -66,7 +68,7 @@ public class TransactionsListViewAdapter extends ArrayAdapter<String> {
                     }
                     to_ba_date.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date(dObj.get("date").toString())));
                     to_ba_name.setText(dObj.get("to_bank_account_name").toString());
-                    to_ba_iban.setText(dObj.get("to_bank_account_iban").toString());
+                    to_ba_iban.setText(addSpaces(dObj.get("to_bank_account_iban").toString()));
                     to_ba_note.setText(dObj.get("to_bank_account_note").toString());
                     to_ba_cash.setText(dObj.get("to_bank_account_cash").toString());
                 } catch (JSONException e) {

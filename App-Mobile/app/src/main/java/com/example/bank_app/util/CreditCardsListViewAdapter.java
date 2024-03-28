@@ -1,5 +1,7 @@
 package com.example.bank_app.util;
 
+import static com.example.bank_app.util.UtilAdapter.addSpaces;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -44,7 +46,7 @@ public class CreditCardsListViewAdapter extends ArrayAdapter<String> {
             TextView creditCardNbr = convertView.findViewById(R.id.credit_card_number);
             TextView validTo = convertView.findViewById(R.id.credit_card_valid_to);
 
-            creditCardNbr.setText(list.get(position));
+            creditCardNbr.setText(addSpaces(list.get(position)));
 
             try {
                 JSONObject dObj = (JSONObject) this.jsonList.get(position);

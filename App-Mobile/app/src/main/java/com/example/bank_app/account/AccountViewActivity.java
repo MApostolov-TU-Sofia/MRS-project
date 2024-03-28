@@ -99,6 +99,7 @@ public class AccountViewActivity extends AppCompatActivity {
                 String requestor = MainActivity.appLoggedUser.getUsername();
                 String bank_id = "" + MainActivity.appUser.getBank_id();
                 String user_id = "" + MainActivity.appUser.getId();
+                MainActivity.appBankAccount = new BankAccount();
 
                 // Execute AsyncTask to perform transfer operation
                 new CreateBankAccountTask().execute(requestor, bank_id, user_id);
