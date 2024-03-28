@@ -4,7 +4,7 @@ import swiftcrypt
 from datetime import datetime
 from flask import render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text, desc
+from sqlalchemy import text, desc, and_, or_, not_
 from api_application import app, db
 from api_application.model import bank as bank_db
 from api_application.model import bank_account as bank_account_db
@@ -55,8 +55,12 @@ def view_by(args):
     }
     db_user_check = user_db.User.query.filter_by(username=args.get("requestor")).first()
     if (db_user_check is not None and db_user_check.salt == args.get('token')):
+        db_bank_account_to_check = bank_account_db.BankAccount.query.filter_by(id=int(args.get('bank_account_id'))).first()
         db_transaction_check = transaction_db.Transaction.query\
-            .filter_by(bank_account_id=args.get('bank_account_id'))\
+            .filter(or_(
+                transaction_db.Transaction.bank_account_id == db_bank_account_to_check.id,
+                transaction_db.Transaction.to_bank_account_iban == db_bank_account_to_check.account_nbr
+            ))\
             .order_by(desc(transaction_db.Transaction.id))\
             .all()
         responseJSON['status'] = 'success'

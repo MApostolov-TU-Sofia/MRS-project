@@ -32,6 +32,7 @@ import com.example.bank_app.account.AccountViewActivity;
 import com.example.bank_app.transaction.MyPaymentActivity;
 import com.example.bank_app.transaction.PaymentActivity;
 import com.example.bank_app.util.ListViewAdapter;
+import com.example.bank_app.util.TransactionsListViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,7 +54,7 @@ public class BankAccountViewActivity extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private ListView transactionsListView;
     //    private SimpleAdapter bankAccountsListViewAdapter;
-    private ListViewAdapter transactionsListViewAdapter;
+    private TransactionsListViewAdapter transactionsListViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class BankAccountViewActivity extends AppCompatActivity {
 
         String urlString = "http://10.0.2.2:8000/transaction/view_by" +
                 "?requestor=" + encodeValue(MainActivity.appLoggedUser.getUsername()) +
-                "&bank_account_id=" + encodeValue(MainActivity.appLoggedUser.getUsername()) +
+                "&bank_account_id=" + encodeValue("" + MainActivity.appBankAccount.getId()) +
                 "&token=" + encodeValue(MainActivity.appLoggedUser.getToken());
         this.extractInfo(urlString, "show_transactions");
     }
@@ -187,7 +188,7 @@ public class BankAccountViewActivity extends AppCompatActivity {
                             JSONObject dObj = (JSONObject) dArray.get(i);
                             items.add(dObj.get("id").toString());
                         }
-                        self.transactionsListViewAdapter = new ListViewAdapter(self, items, dArray);
+                        self.transactionsListViewAdapter = new TransactionsListViewAdapter(self, items, dArray);
                         self.transactionsListView.setAdapter(self.transactionsListViewAdapter);
                         self.transactionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
