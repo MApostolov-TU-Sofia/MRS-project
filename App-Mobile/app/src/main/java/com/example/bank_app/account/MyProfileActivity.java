@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.bank_app.MainActivity;
 import com.example.bank_app.R;
+import com.example.bank_app.bank.AboutActivity;
 import com.example.bank_app.transaction.MyPaymentActivity;
 import com.example.bank_app.transaction.PaymentActivity;
 import com.google.android.material.internal.NavigationMenuItemView;
@@ -74,8 +75,8 @@ public class MyProfileActivity extends AppCompatActivity {
         });
 
         this.drawerLayout = findViewById(R.id.layout_ampv);
-        this.actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_open_nav, R.string.app_close_nav);
-        this.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        this.actionBarDrawerToggle = new ActionBarDrawerToggle(this, this.drawerLayout, R.string.app_open_nav, R.string.app_close_nav);
+        this.drawerLayout.addDrawerListener(this.actionBarDrawerToggle);
         this.actionBarDrawerToggle.syncState();
 
         // Open menu button
@@ -125,8 +126,7 @@ public class MyProfileActivity extends AppCompatActivity {
                 self.navAboutMenuItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        TODO:
-//                        startActivity(new Intent(MyProfileActivity.this, MyProfileActivity.class));
+                        startActivity(new Intent(MyProfileActivity.this, AboutActivity.class));
                     }
                 });
                 self.navLogOutMenuItem.setOnClickListener(new View.OnClickListener() {

@@ -17,9 +17,10 @@ def view(args):
         'data': None
     }
     db_user_check = user_db.User.query.filter_by(username=args.get("requestor")).first()
-    if (db_user_check is not None and db_user_check.role_id == 1):
-        db_role_check = bank_db.Bank.query.filter_by(name=args.get("name")).first()
-        responseJSON['data'] = db_role_check.serialize
+    if (db_user_check is not None and (db_user_check.salt == args.get('token') or db_user_check.role_id == 1)):
+        db_bank_check = bank_db.Bank.query.filter_by(id=args.get("bank_id")).first()
+        responseJSON['data'] = db_bank_check.serialize
+        responseJSON['status'] = 'success'
     else:
         responseJSON['status'] = 'fail'
         responseJSON['message'] = 'Bank is not found or you do not have rights to review'
@@ -34,8 +35,8 @@ def view_all(args):
     }
     db_user_check = user_db.User.query.filter_by(username=args.get("requestor")).first()
     if (db_user_check is not None and db_user_check.role_id == 1):
-        db_role_check = bank_db.Bank.query.all()
-        responseJSON['data'] = [d.serialize for d in db_role_check]
+        db_bank_check = bank_db.Bank.query.all()
+        responseJSON['data'] = [d.serialize for d in db_bank_check]
     else:
         responseJSON['status'] = 'fail'
         responseJSON['message'] = 'Bank is not found or you do not have rights to review'
