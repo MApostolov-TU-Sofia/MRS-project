@@ -75,7 +75,7 @@ public class BankAccountViewActivity extends AppCompatActivity {
         this.viewCreditCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(BankAccountViewActivity.this, CreditCardsActivity.class));
             }
         });
 
