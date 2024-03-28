@@ -6,7 +6,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,8 +13,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -23,17 +20,16 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.bank_app.MainActivity;
 import com.example.bank_app.R;
 import com.example.bank_app.account.AccountViewActivity;
 import com.example.bank_app.account.MyProfileActivity;
+import com.example.bank_app.model.BankAccount;
 import com.example.bank_app.transaction.MyPaymentActivity;
 import com.example.bank_app.transaction.PaymentActivity;
 import com.example.bank_app.util.ListViewAdapter;
-import com.example.bank_app.util.TransactionsListViewAdapter;
 import com.google.android.material.internal.NavigationMenuItemView;
 
 import org.json.JSONArray;
@@ -47,16 +43,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class BankAccountViewActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity {
 
-    private BankAccountViewActivity self = this;
-    private Button logoutButton, viewCreditCardsButton, makePaymentButton;
+    private AboutActivity self = this;
+    private Button logoutButton, homeButton, makePaymentButton;
     private ImageView menuButton;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private ListView transactionsListView;
-    //    private SimpleAdapter bankAccountsListViewAdapter;
-    private TransactionsListViewAdapter transactionsListViewAdapter;
     private NavigationMenuItemView navHomeMenuItem,
             navBankAccountsMenuItem,
             navMakeMyPaymentMenuItem,
@@ -64,37 +57,47 @@ public class BankAccountViewActivity extends AppCompatActivity {
             navMyProfileMenuItem,
             navAboutMenuItem,
             navLogOutMenuItem;
+    private TextView bankNameTextView, bankSwiftTextView, bankDescriptionTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bank_account_view);
-        this.logoutButton = findViewById(R.id.btn_bav_logout);
-        this.viewCreditCardsButton = findViewById(R.id.btn_bav_view_credit_cards);
-        this.transactionsListView = findViewById(R.id.lv_bav_transactions);
-        this.makePaymentButton = findViewById(R.id.btn_aba_pay);
+        setContentView(R.layout.activity_about);
+        this.logoutButton = findViewById(R.id.btn_a_logout);
+        this.homeButton = findViewById(R.id.btn_a_home);
+        this.makePaymentButton = findViewById(R.id.btn_a_pay);
+        this.bankNameTextView = findViewById(R.id.about_bank_name);
+        this.bankSwiftTextView = findViewById(R.id.about_swift);
+        this.bankDescriptionTextView = findViewById(R.id.about_description);
 
-        this.logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(BankAccountViewActivity.this, MainActivity.class));
-            }
-        });
-
-        this.viewCreditCardsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(BankAccountViewActivity.this, CreditCardsActivity.class));
-            }
-        });
-
-        this.drawerLayout = findViewById(R.id.layout_bav);
+        this.drawerLayout = findViewById(R.id.layout_a);
         this.actionBarDrawerToggle = new ActionBarDrawerToggle(this, this.drawerLayout, R.string.app_open_nav, R.string.app_close_nav);
         this.drawerLayout.addDrawerListener(this.actionBarDrawerToggle);
         this.actionBarDrawerToggle.syncState();
 
+        this.logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AboutActivity.this, MainActivity.class));
+            }
+        });
+
+        this.homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AboutActivity.this, AccountViewActivity.class));
+            }
+        });
+
+        this.makePaymentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showBottomDialog();
+            }
+        });
+
         // Open menu button
-        this.menuButton = findViewById(R.id.btn_bav_menu);
+        this.menuButton = findViewById(R.id.btn_a_menu);
         this.menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,68 +113,91 @@ public class BankAccountViewActivity extends AppCompatActivity {
                 self.navHomeMenuItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivity(new Intent(BankAccountViewActivity.this, AccountViewActivity.class));
+                        startActivity(new Intent(AboutActivity.this, AccountViewActivity.class));
                     }
                 });
                 self.navBankAccountsMenuItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivity(new Intent(BankAccountViewActivity.this, AccountViewActivity.class));
+                        startActivity(new Intent(AboutActivity.this, AccountViewActivity.class));
                     }
                 });
                 self.navMakeMyPaymentMenuItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivity(new Intent(BankAccountViewActivity.this, MyPaymentActivity.class));
+                        startActivity(new Intent(AboutActivity.this, MyPaymentActivity.class));
                     }
                 });
                 self.navMakeExternalPaymentMenuItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivity(new Intent(BankAccountViewActivity.this, PaymentActivity.class));
+                        startActivity(new Intent(AboutActivity.this, PaymentActivity.class));
                     }
                 });
                 self.navMyProfileMenuItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivity(new Intent(BankAccountViewActivity.this, MyProfileActivity.class));
+                        startActivity(new Intent(AboutActivity.this, MyProfileActivity.class));
                     }
                 });
                 self.navAboutMenuItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        TODO:
-//                        startActivity(new Intent(BankAccountViewActivity.this, MyProfileActivity.class));
+                        startActivity(new Intent(AboutActivity.this, AboutActivity.class));
                     }
                 });
                 self.navLogOutMenuItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivity(new Intent(BankAccountViewActivity.this, MainActivity.class));
+                        startActivity(new Intent(AboutActivity.this, MainActivity.class));
                     }
                 });
             }
         });
 
-        this.makePaymentButton.setOnClickListener(new View.OnClickListener() {
+        // Construct the URL with parameters
+        String urlString = "http://10.0.2.2:8000/bank/view" +
+                "?requestor=" + encodeValue(MainActivity.appLoggedUser.getUsername()) +
+                "&bank_id=" + encodeValue("" + MainActivity.appUser.getBank_id()) +
+                "&token=" + encodeValue(MainActivity.appLoggedUser.getToken());
+        this.extractInfo(urlString, "show_info");
+    }
+
+    private void showBottomDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottom_payment_layout);
+
+        LinearLayout myPaymentReq = dialog.findViewById(R.id.my_payment_req);
+        LinearLayout paymentReq = dialog.findViewById(R.id.payment_req);
+
+        myPaymentReq.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                showBottomDialog();
+            public void onClick(View v) {
+                dialog.dismiss();
+                startActivity(new Intent(AboutActivity.this, MyPaymentActivity.class));
             }
         });
 
-        String urlString = "http://10.0.2.2:8000/transaction/view_by" +
-                "?requestor=" + encodeValue(MainActivity.appLoggedUser.getUsername()) +
-                "&bank_account_id=" + encodeValue("" + MainActivity.appBankAccount.getId()) +
-                "&token=" + encodeValue(MainActivity.appLoggedUser.getToken());
-        this.extractInfo(urlString, "show_transactions");
+        paymentReq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                startActivity(new Intent(AboutActivity.this, PaymentActivity.class));
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
     private void extractInfo(String urlString, String action) {
         try {
             // Define your Flask server endpoint
-            if (action == "show_transactions") {
-                new BankAccountViewActivity.HttpRequestShowTransactionsInfoTask().execute(urlString);
+            if (action == "show_info") {
+                new HttpRequestShowInfoTask().execute(urlString);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -179,7 +205,8 @@ public class BankAccountViewActivity extends AppCompatActivity {
         }
     }
 
-    private class HttpRequestShowTransactionsInfoTask extends AsyncTask<String, Void, String> {
+
+    private class HttpRequestShowInfoTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -214,22 +241,10 @@ public class BankAccountViewActivity extends AppCompatActivity {
                 try {
                     JSONObject resJSON = new JSONObject(result);
                     if (resJSON.get("status").equals("success")) {
-                        JSONArray dArray = (JSONArray) resJSON.get("data");
-                        ArrayList<String> items = new ArrayList<>();
-                        for (int i = 0; i < dArray.length(); i++) {
-                            JSONObject dObj = (JSONObject) dArray.get(i);
-                            items.add(dObj.get("id").toString());
-                        }
-                        self.transactionsListViewAdapter = new TransactionsListViewAdapter(self, items, dArray);
-                        self.transactionsListView.setAdapter(self.transactionsListViewAdapter);
-                        self.transactionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                                String selectedItem = (String) adapterView.getItemAtPosition(position);
-                                Toast.makeText(BankAccountViewActivity.this, "" + selectedItem, Toast.LENGTH_SHORT).show();
-//                                startActivity(new Intent(BankAccountViewActivity.this, TransactionViewActivity.class));
-                            }
-                        });
+                        JSONObject dObj = (JSONObject) resJSON.get("data");
+                        self.bankNameTextView.setText(dObj.get("name").toString());
+                        self.bankSwiftTextView.setText(dObj.get("swift").toString());
+                        self.bankDescriptionTextView.setText(dObj.get("description").toString());
                     }
                 } catch (JSONException e) {
                     System.out.println(e);
@@ -238,35 +253,5 @@ public class BankAccountViewActivity extends AppCompatActivity {
                 System.out.println("Error in the GET request");
             }
         }
-    }
-
-    private void showBottomDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.bottom_payment_layout);
-
-        LinearLayout myPaymentReq = dialog.findViewById(R.id.my_payment_req);
-        LinearLayout paymentReq = dialog.findViewById(R.id.payment_req);
-
-        myPaymentReq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                startActivity(new Intent(BankAccountViewActivity.this, MyPaymentActivity.class));
-            }
-        });
-
-        paymentReq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                startActivity(new Intent(BankAccountViewActivity.this, PaymentActivity.class));
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 }

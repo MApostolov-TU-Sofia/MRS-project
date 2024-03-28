@@ -31,6 +31,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.bank_app.MainActivity;
 import com.example.bank_app.R;
+import com.example.bank_app.bank.AboutActivity;
 import com.example.bank_app.bank.BankAccountViewActivity;
 import com.example.bank_app.model.BankAccount;
 import com.example.bank_app.transaction.MyPaymentActivity;
@@ -113,8 +114,8 @@ public class AccountViewActivity extends AppCompatActivity {
 
 
         this.drawerLayout = findViewById(R.id.layout_aav);
-        this.actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_open_nav, R.string.app_close_nav);
-        this.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        this.actionBarDrawerToggle = new ActionBarDrawerToggle(this, this.drawerLayout, R.string.app_open_nav, R.string.app_close_nav);
+        this.drawerLayout.addDrawerListener(this.actionBarDrawerToggle);
         this.actionBarDrawerToggle.syncState();
 
         // Open menu button
@@ -164,8 +165,7 @@ public class AccountViewActivity extends AppCompatActivity {
                 self.navAboutMenuItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        TODO:
-//                        startActivity(new Intent(AccountViewActivity.this, MyProfileActivity.class));
+                        startActivity(new Intent(AccountViewActivity.this, AboutActivity.class));
                     }
                 });
                 self.navLogOutMenuItem.setOnClickListener(new View.OnClickListener() {
@@ -265,7 +265,6 @@ public class AccountViewActivity extends AppCompatActivity {
         }
     }
 
-
     private class HttpRequestViewByTask extends AsyncTask<String, Void, String> {
 
         @Override
@@ -345,7 +344,6 @@ public class AccountViewActivity extends AppCompatActivity {
             }
         }
     }
-
 
     private class CreateBankAccountTask extends AsyncTask<String, Void, String> {
         @Override

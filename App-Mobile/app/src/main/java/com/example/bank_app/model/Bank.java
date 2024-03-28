@@ -6,16 +6,17 @@ public class Bank {
     private String name;
     private String swift;
     private String address;
-
+    private String description;
     public Bank() {
 
     }
 
-    public Bank(int id, String name, String swift, String address) {
+    public Bank(int id, String name, String swift, String address, String description) {
         this.id = id;
         this.name = name;
         this.swift = swift;
         this.address = address;
+        this.description = description;
     }
 
     public int getId() {
@@ -50,10 +51,11 @@ public class Bank {
         this.address = address;
     }
 
-    public void setBank(int id, String name, String swift, String address) {
+    public void setBank(int id, String name, String swift, String address, String description) {
         this.id = id;
         this.name = name;
         this.swift = swift;
         this.address = address;
+        this.description = description;
     }
 }

@@ -20,6 +20,7 @@ import com.example.bank_app.MainActivity;
 import com.example.bank_app.R;
 import com.example.bank_app.account.AccountViewActivity;
 import com.example.bank_app.account.MyProfileActivity;
+import com.example.bank_app.bank.AboutActivity;
 import com.example.bank_app.bank.CreditCardsActivity;
 import com.example.bank_app.model.BankAccount;
 import com.google.android.material.internal.NavigationMenuItemView;
@@ -175,8 +176,7 @@ public class MyPaymentActivity extends AppCompatActivity {
                 self.navAboutMenuItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        TODO:
-//                        startActivity(new Intent(MyPaymentActivity.this, MyProfileActivity.class));
+                        startActivity(new Intent(MyPaymentActivity.this, AboutActivity.class));
                     }
                 });
                 self.navLogOutMenuItem.setOnClickListener(new View.OnClickListener() {

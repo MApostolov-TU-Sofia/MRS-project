@@ -98,8 +98,8 @@ public class CreditCardsActivity extends AppCompatActivity {
         });
 
         this.drawerLayout = findViewById(R.id.layout_cca);
-        this.actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_open_nav, R.string.app_close_nav);
-        this.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        this.actionBarDrawerToggle = new ActionBarDrawerToggle(this, this.drawerLayout, R.string.app_open_nav, R.string.app_close_nav);
+        this.drawerLayout.addDrawerListener(this.actionBarDrawerToggle);
         this.actionBarDrawerToggle.syncState();
 
         // Open menu button
@@ -148,8 +148,7 @@ public class CreditCardsActivity extends AppCompatActivity {
                 self.navAboutMenuItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        TODO:
-//                        startActivity(new Intent(CreditCardsActivity.this, MyProfileActivity.class));
+                        startActivity(new Intent(CreditCardsActivity.this, AboutActivity.class));
                     }
                 });
                 self.navLogOutMenuItem.setOnClickListener(new View.OnClickListener() {
