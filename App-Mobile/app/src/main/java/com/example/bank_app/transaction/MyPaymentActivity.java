@@ -19,7 +19,10 @@ import android.widget.Toast;
 import com.example.bank_app.MainActivity;
 import com.example.bank_app.R;
 import com.example.bank_app.account.AccountViewActivity;
+import com.example.bank_app.account.MyProfileActivity;
+import com.example.bank_app.bank.CreditCardsActivity;
 import com.example.bank_app.model.BankAccount;
+import com.google.android.material.internal.NavigationMenuItemView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +47,13 @@ public class MyPaymentActivity extends AppCompatActivity {
             inpToBankAccountSecondaryNote,
             inpToBankAccountCash;
     private Button inpPaymentCommitButton;
+    private NavigationMenuItemView navHomeMenuItem,
+            navBankAccountsMenuItem,
+            navMakeMyPaymentMenuItem,
+            navMakeExternalPaymentMenuItem,
+            navMyProfileMenuItem,
+            navAboutMenuItem,
+            navLogOutMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +134,57 @@ public class MyPaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 self.drawerLayout.open();
+                self.navHomeMenuItem = self.drawerLayout.findViewById(R.id.nav_home);
+                self.navBankAccountsMenuItem = self.drawerLayout.findViewById(R.id.nav_bank_accounts);
+                self.navMakeMyPaymentMenuItem = self.drawerLayout.findViewById(R.id.nav_make_my_payment);
+                self.navMakeExternalPaymentMenuItem = self.drawerLayout.findViewById(R.id.nav_make_ext_payment);
+                self.navMyProfileMenuItem = self.drawerLayout.findViewById(R.id.nav_profile);
+                self.navAboutMenuItem = self.drawerLayout.findViewById(R.id.nav_about);
+                self.navLogOutMenuItem = self.drawerLayout.findViewById(R.id.nav_logout);
+
+                self.navHomeMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(MyPaymentActivity.this, AccountViewActivity.class));
+                    }
+                });
+                self.navBankAccountsMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(MyPaymentActivity.this, AccountViewActivity.class));
+                    }
+                });
+                self.navMakeMyPaymentMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(MyPaymentActivity.this, MyPaymentActivity.class));
+                    }
+                });
+                self.navMakeExternalPaymentMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(MyPaymentActivity.this, PaymentActivity.class));
+                    }
+                });
+                self.navMyProfileMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(MyPaymentActivity.this, MyProfileActivity.class));
+                    }
+                });
+                self.navAboutMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//                        TODO:
+//                        startActivity(new Intent(MyPaymentActivity.this, MyProfileActivity.class));
+                    }
+                });
+                self.navLogOutMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(MyPaymentActivity.this, MainActivity.class));
+                    }
+                });
             }
         });
     }
