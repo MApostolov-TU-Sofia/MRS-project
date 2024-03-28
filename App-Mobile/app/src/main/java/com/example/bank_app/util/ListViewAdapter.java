@@ -1,5 +1,7 @@
 package com.example.bank_app.util;
 
+import static com.example.bank_app.util.UtilAdapter.addSpaces;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -51,7 +53,7 @@ public class ListViewAdapter extends ArrayAdapter<String> {
             TextView name = convertView.findViewById(R.id.name);
             TextView cash = convertView.findViewById(R.id.cash);
 
-            name.setText(list.get(position));
+            name.setText(addSpaces(list.get(position)));
             cash.setText("0.00");
 
             try {
