@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5sp"
+    android:scrollbars="vertical|horizontal">
+
+    <ImageView
+        android:layout_alignParentLeft="true"
+        android:id="@+id/tlr_credit_card"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_credit_card_24"></ImageView>
+    <TextView
+        android:id="@+id/credit_card_number"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/tlr_credit_card"
+        android:textColor="#000"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/credit_card_valid_to"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/credit_card_number"
+        android:textColor="#000"
+        android:textSize="15sp" />
+
+</RelativeLayout>

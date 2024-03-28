@@ -4,7 +4,7 @@ import swiftcrypt
 from datetime import datetime, timedelta
 from flask import render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text
+from sqlalchemy import text, desc
 from api_application import app, db
 from api_application.model import bank as bank_db
 from api_application.model import bank_account as bank_account_db
@@ -56,8 +56,12 @@ def view_by(args):
     }
     db_user_check = user_db.User.query.filter_by(username=args.get("requestor")).first()
     if (db_user_check is not None and db_user_check.salt == args.get('token')):
-        db_credit_card_check = credit_card_db.CreditCard.query.filter_by(bank_account_id=args.get('credit_card_id')).all()
+        db_credit_card_check = credit_card_db.CreditCard.query\
+            .filter_by(bank_account_id=int(args.get('bank_account_id')))\
+            .order_by(desc(credit_card_db.CreditCard.id))\
+            .all()
         responseJSON['data'] = [d.serialize for d in db_credit_card_check]
+        responseJSON['status'] = 'success'
     else:
         responseJSON['status'] = 'fail'
         responseJSON['message'] = 'Credit card is not found or you do not have rights to review'
@@ -71,18 +75,16 @@ def create(args):
     }
     db_user_check = user_db.User.query.filter_by(username=args.get("requestor")).first()
     if (db_user_check is not None and db_user_check.salt == args.get('token')):
-        bank_db_txt = bank_db.Bank.query.filter_by(id=args.get('bank_account_id')).first()
-
-        bank_account_db_count = bank_account_db.BankAccount.query.count()
-        bank_account_db_count += 1
-        bank_account_code = str(bank_account_db_count).zfill(14)
+        credit_card_db_count = credit_card_db.CreditCard.query.count()
+        credit_card_db_count += 1
+        credit_card_code = str(credit_card_db_count).zfill(14)
 
         new_record = credit_card_db.CreditCard()
-        new_record.bank_account_id = args.get('bank_account_id')
-        new_record.credit_card_nbr = bank_account_code
+        new_record.bank_account_id = int(args.get('bank_account_id'))
+        new_record.credit_card_nbr = credit_card_code
         seed(1)
-        new_record.cvc_nbr = int("" + randint(0, 9) + "" + randint(0, 9) + "" + randint(0, 9))
-        new_record.limit = args.get('limit')
+        new_record.cvc_nbr = int(str(randint(0, 9)) + str(randint(0, 9)) + str(randint(0, 9)))
+        new_record.limit = Decimal(args.get('limit'))
         new_record.valid_to = datetime.now() + timedelta(days=(365 * 2))
 
         db.session.add(new_record)
