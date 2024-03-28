@@ -29,10 +29,12 @@ import android.widget.Toast;
 import com.example.bank_app.MainActivity;
 import com.example.bank_app.R;
 import com.example.bank_app.account.AccountViewActivity;
+import com.example.bank_app.account.MyProfileActivity;
 import com.example.bank_app.transaction.MyPaymentActivity;
 import com.example.bank_app.transaction.PaymentActivity;
 import com.example.bank_app.util.ListViewAdapter;
 import com.example.bank_app.util.TransactionsListViewAdapter;
+import com.google.android.material.internal.NavigationMenuItemView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +57,13 @@ public class BankAccountViewActivity extends AppCompatActivity {
     private ListView transactionsListView;
     //    private SimpleAdapter bankAccountsListViewAdapter;
     private TransactionsListViewAdapter transactionsListViewAdapter;
+    private NavigationMenuItemView navHomeMenuItem,
+            navBankAccountsMenuItem,
+            navMakeMyPaymentMenuItem,
+            navMakeExternalPaymentMenuItem,
+            navMyProfileMenuItem,
+            navAboutMenuItem,
+            navLogOutMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +99,57 @@ public class BankAccountViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 self.drawerLayout.open();
+                self.navHomeMenuItem = self.drawerLayout.findViewById(R.id.nav_home);
+                self.navBankAccountsMenuItem = self.drawerLayout.findViewById(R.id.nav_bank_accounts);
+                self.navMakeMyPaymentMenuItem = self.drawerLayout.findViewById(R.id.nav_make_my_payment);
+                self.navMakeExternalPaymentMenuItem = self.drawerLayout.findViewById(R.id.nav_make_ext_payment);
+                self.navMyProfileMenuItem = self.drawerLayout.findViewById(R.id.nav_profile);
+                self.navAboutMenuItem = self.drawerLayout.findViewById(R.id.nav_about);
+                self.navLogOutMenuItem = self.drawerLayout.findViewById(R.id.nav_logout);
+
+                self.navHomeMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(BankAccountViewActivity.this, AccountViewActivity.class));
+                    }
+                });
+                self.navBankAccountsMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(BankAccountViewActivity.this, AccountViewActivity.class));
+                    }
+                });
+                self.navMakeMyPaymentMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(BankAccountViewActivity.this, MyPaymentActivity.class));
+                    }
+                });
+                self.navMakeExternalPaymentMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(BankAccountViewActivity.this, PaymentActivity.class));
+                    }
+                });
+                self.navMyProfileMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(BankAccountViewActivity.this, MyProfileActivity.class));
+                    }
+                });
+                self.navAboutMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//                        TODO:
+//                        startActivity(new Intent(BankAccountViewActivity.this, MyProfileActivity.class));
+                    }
+                });
+                self.navLogOutMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(BankAccountViewActivity.this, MainActivity.class));
+                    }
+                });
             }
         });
 
@@ -105,34 +165,6 @@ public class BankAccountViewActivity extends AppCompatActivity {
                 "&bank_account_id=" + encodeValue("" + MainActivity.appBankAccount.getId()) +
                 "&token=" + encodeValue(MainActivity.appLoggedUser.getToken());
         this.extractInfo(urlString, "show_transactions");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.nav_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Switching on the item id of the menu item
-        int itemId = item.getItemId();
-        if (itemId == R.id.nav_home || itemId == R.id.nav_bank_accounts) {
-            startActivity(new Intent(BankAccountViewActivity.this, AccountViewActivity.class));
-            return true;
-        } else if (itemId == R.id.nav_make_my_payment) {
-            return true;
-        } else if (itemId == R.id.nav_make_ext_payment) {
-            return true;
-        } else if (itemId == R.id.nav_profile) {
-            return true;
-        } else if (itemId == R.id.nav_about) {
-            return true;
-        } else if (itemId == R.id.nav_logout) {
-            startActivity(new Intent(BankAccountViewActivity.this, MainActivity.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void extractInfo(String urlString, String action) {

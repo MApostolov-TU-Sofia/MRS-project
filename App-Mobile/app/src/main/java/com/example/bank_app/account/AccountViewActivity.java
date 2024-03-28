@@ -36,6 +36,7 @@ import com.example.bank_app.model.BankAccount;
 import com.example.bank_app.transaction.MyPaymentActivity;
 import com.example.bank_app.transaction.PaymentActivity;
 import com.example.bank_app.util.ListViewAdapter;
+import com.google.android.material.internal.NavigationMenuItemView;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
@@ -67,6 +68,13 @@ public class AccountViewActivity extends AppCompatActivity {
     private ListViewAdapter bankAccountListViewAdapter;
     public static ArrayList<String> bankAccountItems;
     public static ArrayList<BankAccount> activeBankAccounts;
+    private NavigationMenuItemView navHomeMenuItem,
+            navBankAccountsMenuItem,
+            navMakeMyPaymentMenuItem,
+            navMakeExternalPaymentMenuItem,
+            navMyProfileMenuItem,
+            navAboutMenuItem,
+            navLogOutMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,16 +123,59 @@ public class AccountViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 self.drawerLayout.open();
+                self.navHomeMenuItem = self.drawerLayout.findViewById(R.id.nav_home);
+                self.navBankAccountsMenuItem = self.drawerLayout.findViewById(R.id.nav_bank_accounts);
+                self.navMakeMyPaymentMenuItem = self.drawerLayout.findViewById(R.id.nav_make_my_payment);
+                self.navMakeExternalPaymentMenuItem = self.drawerLayout.findViewById(R.id.nav_make_ext_payment);
+                self.navMyProfileMenuItem = self.drawerLayout.findViewById(R.id.nav_profile);
+                self.navAboutMenuItem = self.drawerLayout.findViewById(R.id.nav_about);
+                self.navLogOutMenuItem = self.drawerLayout.findViewById(R.id.nav_logout);
+
+                self.navHomeMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(AccountViewActivity.this, AccountViewActivity.class));
+                    }
+                });
+                self.navBankAccountsMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(AccountViewActivity.this, AccountViewActivity.class));
+                    }
+                });
+                self.navMakeMyPaymentMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(AccountViewActivity.this, MyPaymentActivity.class));
+                    }
+                });
+                self.navMakeExternalPaymentMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(AccountViewActivity.this, PaymentActivity.class));
+                    }
+                });
+                self.navMyProfileMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(AccountViewActivity.this, MyProfileActivity.class));
+                    }
+                });
+                self.navAboutMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//                        TODO:
+//                        startActivity(new Intent(AccountViewActivity.this, MyProfileActivity.class));
+                    }
+                });
+                self.navLogOutMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(AccountViewActivity.this, MainActivity.class));
+                    }
+                });
             }
         });
-
-//        try {
-//            invalidateOptionsMenu();
-//            this.homeButton = this.drawerLayout.findViewById(R.id.nav_home);
-//            this.homeButton = findViewById(R.id.nav_home);
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//        }
 
         // Construct the URL with parameters
         String urlString = "http://10.0.2.2:8000/user/show_info" +
@@ -132,58 +183,6 @@ public class AccountViewActivity extends AppCompatActivity {
                 "&username=" + encodeValue(MainActivity.appLoggedUser.getUsername()) +
                 "&token=" + encodeValue(MainActivity.appLoggedUser.getToken());
         this.extractInfo(urlString, "show_info");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.nav_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        final MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.nav_menu, menu);
-//        MenuItem homeBtn = menu.findItem(R.id.nav_home);
-//        homeBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                Intent intent = new Intent(AccountViewActivity.this, AccountViewActivity.class);
-//                startActivity(intent);
-//                return false;
-//            }
-//        });
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        MenuItem item = menu.findItem( R.id.nav_home );
-//        // Update the item here onwards
-//        return true;
-//    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Switching on the item id of the menu item
-        int itemId = item.getItemId();
-        if (itemId == R.id.nav_home || itemId == R.id.nav_bank_accounts) {
-            startActivity(new Intent(AccountViewActivity.this, AccountViewActivity.class));
-            return true;
-        } else if (itemId == R.id.nav_make_my_payment) {
-            return true;
-        } else if (itemId == R.id.nav_make_ext_payment) {
-            return true;
-        } else if (itemId == R.id.nav_profile) {
-            return true;
-        } else if (itemId == R.id.nav_about) {
-            return true;
-        } else if (itemId == R.id.nav_logout) {
-            startActivity(new Intent(AccountViewActivity.this, MainActivity.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void extractInfo(String urlString, String action) {

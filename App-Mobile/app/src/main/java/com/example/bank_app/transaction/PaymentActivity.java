@@ -22,7 +22,9 @@ import com.example.bank_app.MainActivity;
 import com.example.bank_app.R;
 import com.example.bank_app.account.AccountLoginActivity;
 import com.example.bank_app.account.AccountViewActivity;
+import com.example.bank_app.account.MyProfileActivity;
 import com.example.bank_app.model.BankAccount;
+import com.google.android.material.internal.NavigationMenuItemView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +50,13 @@ public class PaymentActivity extends AppCompatActivity {
             inpToBankAccountSecondaryNote,
             inpToBankAccountCash;
     private Button inpPaymentCommitButton;
+    private NavigationMenuItemView navHomeMenuItem,
+            navBankAccountsMenuItem,
+            navMakeMyPaymentMenuItem,
+            navMakeExternalPaymentMenuItem,
+            navMyProfileMenuItem,
+            navAboutMenuItem,
+            navLogOutMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +131,57 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 self.drawerLayout.open();
+                self.navHomeMenuItem = self.drawerLayout.findViewById(R.id.nav_home);
+                self.navBankAccountsMenuItem = self.drawerLayout.findViewById(R.id.nav_bank_accounts);
+                self.navMakeMyPaymentMenuItem = self.drawerLayout.findViewById(R.id.nav_make_my_payment);
+                self.navMakeExternalPaymentMenuItem = self.drawerLayout.findViewById(R.id.nav_make_ext_payment);
+                self.navMyProfileMenuItem = self.drawerLayout.findViewById(R.id.nav_profile);
+                self.navAboutMenuItem = self.drawerLayout.findViewById(R.id.nav_about);
+                self.navLogOutMenuItem = self.drawerLayout.findViewById(R.id.nav_logout);
+
+                self.navHomeMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(PaymentActivity.this, AccountViewActivity.class));
+                    }
+                });
+                self.navBankAccountsMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(PaymentActivity.this, AccountViewActivity.class));
+                    }
+                });
+                self.navMakeMyPaymentMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(PaymentActivity.this, MyPaymentActivity.class));
+                    }
+                });
+                self.navMakeExternalPaymentMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(PaymentActivity.this, PaymentActivity.class));
+                    }
+                });
+                self.navMyProfileMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(PaymentActivity.this, MyProfileActivity.class));
+                    }
+                });
+                self.navAboutMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//                        TODO:
+//                        startActivity(new Intent(PaymentActivity.this, MyProfileActivity.class));
+                    }
+                });
+                self.navLogOutMenuItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(PaymentActivity.this, MainActivity.class));
+                    }
+                });
             }
         });
     }
