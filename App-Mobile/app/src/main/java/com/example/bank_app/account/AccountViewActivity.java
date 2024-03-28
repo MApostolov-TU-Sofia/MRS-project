@@ -322,6 +322,18 @@ public class AccountViewActivity extends AppCompatActivity {
                             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                                 String selectedItem = (String) adapterView.getItemAtPosition(position);
 //                                Toast.makeText(AccountViewActivity.this, "" + selectedItem, Toast.LENGTH_SHORT).show();
+                                for (int i = 0; i < self.activeBankAccounts.size(); i++) {
+                                    BankAccount currentBankAccount = self.activeBankAccounts.get(i);
+                                    if (currentBankAccount.getAccountNbr().equals(selectedItem)) {
+                                        MainActivity.appBankAccount = new BankAccount(currentBankAccount.getId(),
+                                                currentBankAccount.getBankId(),
+                                                currentBankAccount.getUserId(),
+                                                currentBankAccount.getAccountNbr(),
+                                                currentBankAccount.getStatus(),
+                                                currentBankAccount.getCash());
+                                        break;
+                                    }
+                                }
                                 startActivity(new Intent(AccountViewActivity.this, BankAccountViewActivity.class));
                             }
                         });

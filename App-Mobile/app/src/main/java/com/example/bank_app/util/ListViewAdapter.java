@@ -48,40 +48,15 @@ public class ListViewAdapter extends ArrayAdapter<String> {
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.list_row, null);
-            TextView number = convertView.findViewById(R.id.number);
             TextView name = convertView.findViewById(R.id.name);
             TextView cash = convertView.findViewById(R.id.cash);
 
-            number.setText((position + 1) + ".");
             name.setText(list.get(position));
             cash.setText("0.00");
 
             try {
                 JSONObject dObj = (JSONObject) this.jsonList.get(position);
                 cash.setText(dObj.get("cash").toString());
-
-                if (Integer.parseInt(dObj.get("status").toString()) == 1) {
-                    ImageView remove = convertView.findViewById(R.id.remove);
-                    remove.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            try {
-                                new AlertDialog.Builder(self.context)
-                                        .setTitle("Confirmation")
-                                        .setMessage("Do you want to disable the bank account?")
-                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                Toast.makeText(self.context, "Yes, will be disabled", Toast.LENGTH_LONG).show();
-                                            }
-                                        })
-                                        .setNegativeButton(android.R.string.no, null).show();
-                            } catch (Error err) {
-                                System.out.println(err.getMessage());
-                            }
-                        }
-                    });
-                }
             } catch (JSONException e) {
                 System.out.println(e.getMessage());
             }

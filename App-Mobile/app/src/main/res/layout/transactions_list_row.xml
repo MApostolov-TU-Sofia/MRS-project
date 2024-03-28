@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5sp"
+    android:scrollbars="vertical|horizontal">
+
+    <ImageView
+        android:layout_alignParentLeft="true"
+        android:id="@+id/tlr_in"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_in"></ImageView>
+    <ImageView
+        android:layout_alignParentLeft="true"
+        android:id="@+id/tlr_out"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_out"></ImageView>
+    <TextView
+        android:id="@+id/to_ba_date"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/tlr_in"
+        android:textColor="#000"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/to_ba_name"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/to_ba_date"
+        android:textColor="#000"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/to_ba_iban"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/to_ba_name"
+        android:textColor="#000"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/to_ba_note"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/to_ba_iban"
+        android:textColor="#000"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/to_ba_cash"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/to_ba_note"
+        android:textSize="15sp" />
+
+</RelativeLayout>
